@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { LoginRequest } from '../../payloads/login/LoginRequest';
 import { LoginService } from '../../services/login/login.service';
 
@@ -9,7 +10,6 @@ import { LoginService } from '../../services/login/login.service';
 })
 export class LoginComponent implements OnInit {
 
-  request: LoginRequest = {};
   username: string = '';
   password: string = '';
 
@@ -20,10 +20,10 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onLoginBtnClicked() {
-    this.request.password = this.password;
-    this.request.username = this.username;
-    this.loginService.loginUser(this.request);
+  signInAction() {
+    if (this.username != '' && this.password != '') {
+      this.loginService.loginUser(new LoginRequest(this.username, this.password));
+    }
   }
 
 

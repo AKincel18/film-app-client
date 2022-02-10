@@ -1,5 +1,7 @@
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MessageResponse } from "src/app/MessageResponse";
 import { LoginRequest } from "src/app/payloads/login/LoginRequest";
 import { LoginResponse } from "src/app/payloads/login/LoginResponse";
 
@@ -8,25 +10,29 @@ import { LoginResponse } from "src/app/payloads/login/LoginResponse";
 })
 export class LoginService {
 
-  response: LoginResponse | undefined;
+  response : LoginResponse | undefined;
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private snackBar: MatSnackBar
   ) { }
 
   loginUser(request: LoginRequest) {
     this.http
       .post("http://localhost:8080/api/auth/login", request)
-      .subscribe(
-        (res) => {
-          this.response = res as any;
-          console.log('OK: id = ' + this.response?.id);
+      .subscribe( {
+        next: (res) => {
+          this.response = res as LoginResponse;
+          console.log('success: id = ' + this.response?.id);
         },
-        (err: HttpErrorResponse) => {
-          console.error('Error = ' + err.error.detail)
-          // this.snackBar.open(err.error.detail, null, {
-          //   duration: 5000,
-          // });
-        }
-      );
+        error: (e) => {
+          if (e instanceof HttpErrorResponse) {
+            var response = e.error as MessageResponse;
+            this.snackBar.open(response.message, '', {
+              duration: 5000
+            })            
+          }
+
+      }
+      });
   }
 }
