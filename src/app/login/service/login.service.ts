@@ -4,6 +4,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MessageResponse } from "src/app/MessageResponse";
 import { LoginRequest } from "src/app/login/payload/LoginRequest";
 import { LoginResponse } from "src/app/login/payload/LoginResponse";
+import { environment } from "src/environments/environment";
+import { ApiPaths } from "src/enums/ApiPaths";
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +19,9 @@ export class LoginService {
   ) { }
 
   loginUser(request: LoginRequest) {
+    var url = environment.baseUrl + ApiPaths.LOGIN;
     this.http
-      .post("http://localhost:8080/api/auth/login", request)
+      .post(url, request)
       .subscribe( {
         next: (res) => {
           this.response = res as LoginResponse;
