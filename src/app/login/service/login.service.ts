@@ -2,8 +2,8 @@ import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MessageResponse } from "src/app/MessageResponse";
-import { LoginRequest } from "src/app/payloads/login/LoginRequest";
-import { LoginResponse } from "src/app/payloads/login/LoginResponse";
+import { LoginRequest } from "src/app/login/payload/LoginRequest";
+import { LoginResponse } from "src/app/login/payload/LoginResponse";
 
 @Injectable({
   providedIn: 'root'
