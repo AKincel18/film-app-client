@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { UserRole } from 'src/enums/UserRole';
 import { LoginRequest } from '../payload/LoginRequest';
+import { RegisterRequest } from '../payload/RegisterRequest';
 import { LoginService } from '../service/login.service';
 
 @Component({
@@ -10,8 +12,10 @@ import { LoginService } from '../service/login.service';
 })
 export class LoginComponent implements OnInit {
 
+  activeTab = 0;
   username: string = '';
   password: string = '';
+  email: string = '';
 
   constructor(
     private loginService: LoginService
@@ -24,6 +28,11 @@ export class LoginComponent implements OnInit {
     if (this.username != '' && this.password != '') {
       this.loginService.loginUser(new LoginRequest(this.username, this.password));
     }
+  }
+
+  signUpAction() {
+    //this.activeTab = 0;
+    this.loginService.registerUser(new RegisterRequest(this.username, this.email, this.password, UserRole.ROLE_USER));
   }
 
 

@@ -7,6 +7,7 @@ import { User } from "src/app/login/payload/User";
 import { environment } from "src/environments/environment";
 import { ApiPaths } from "src/enums/ApiPaths";
 import { LocalStorageService } from "src/app/localstorage/localstorage.service";
+import { RegisterRequest } from "../payload/RegisterRequest";
 
 @Injectable({
   providedIn: 'root'
@@ -38,5 +39,28 @@ export class LoginService {
 
       }
       });
+  }
+
+  registerUser(request: RegisterRequest) {
+    var url = environment.baseUrl + ApiPaths.REGISTER;
+    this.http
+    .post(url, request)
+    .subscribe( {
+      next: (res) => {
+        var response = res as MessageResponse;
+        this.snackBar.open(response.message, '', {
+          duration: 5000
+        })  
+      },
+      error: (e) => {
+        if (e instanceof HttpErrorResponse) {
+          var response = e.error as MessageResponse;
+          this.snackBar.open(response.message, '', {
+            duration: 5000
+          })            
+        }
+
+    }
+    });
   }
 }
