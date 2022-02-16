@@ -3,19 +3,20 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MessageResponse } from "src/app/MessageResponse";
 import { LoginRequest } from "src/app/login/payload/LoginRequest";
-import { LoginResponse } from "src/app/login/payload/LoginResponse";
+import { User } from "src/app/login/payload/User";
 import { environment } from "src/environments/environment";
 import { ApiPaths } from "src/enums/ApiPaths";
+import { LocalStorageService } from "src/app/localstorage/localstorage.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
-  response : LoginResponse | undefined;
   constructor(
     private http: HttpClient,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private localStorageService: LocalStorageService
   ) { }
 
   loginUser(request: LoginRequest) {
@@ -24,8 +25,8 @@ export class LoginService {
       .post(url, request)
       .subscribe( {
         next: (res) => {
-          this.response = res as LoginResponse;
-          console.log('success: id = ' + this.response?.id);
+          this.localStorageService.setUser(res as User);
+          console.log(JSON.stringify(this.localStorageService.getUser()));
         },
         error: (e) => {
           if (e instanceof HttpErrorResponse) {
