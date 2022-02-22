@@ -13,16 +13,20 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatInputModule} from '@angular/material/input';
 import {MatToolbarModule} from '@angular/material/toolbar'
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
-import { CategoryComponent } from './category/component/category.component';
 import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { UserRoleComponent } from './moderator-views/userrole/component/userrole.component';
+import { CategoryComponent } from './moderator-views/category/component/category.component';
+import { PersonRoleComponent } from './moderator-views/personrole/component/personrole.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    CategoryComponent
+    CategoryComponent,
+    UserRoleComponent,
+    PersonRoleComponent
   ],
   imports: [
     BrowserModule,

@@ -1,21 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { Category } from '../Category';
+import { Dictionary } from '../../parent/Dictionary';
 import { CategoryService } from '../service/categoryservice.service';
 
 @Component({
   selector: 'app-category',
-  templateUrl: './category.component.html',
-  styleUrls: ['./category.component.css']
+  templateUrl: '../../parent/template/parent.template.html',
+  styleUrls: ['../../parent/template/parent.template.css']
 })
 export class CategoryComponent implements OnInit {
+  title = 'Category';
   categories : any;
 
-  dataSource = new MatTableDataSource<Category>();
+  dataSource = new MatTableDataSource<Dictionary>();
   displayedColumns: any;
-  categoryName = '';
+  dictName = '';
   enabledBottomPanel = false;
-  currentCategory: Category = new Category(0, '');
+  currentCategory: Dictionary = new Dictionary(0, '');
 
   constructor(
     private categoryService: CategoryService
@@ -27,7 +28,7 @@ export class CategoryComponent implements OnInit {
   }
 
   getCategories() {
-    this.categories = this.categoryService.getCategory().subscribe({
+    this.categories = this.categoryService.getCategories().subscribe({
       next: (res) => {
         this.dataSource.data = res;
       },
@@ -37,27 +38,27 @@ export class CategoryComponent implements OnInit {
     })
   }
 
-  editCategory(element: Category) {
+  edit(element: Dictionary) {
     this.currentCategory = element;
-    this.categoryName = this.currentCategory.name;
+    this.dictName = this.currentCategory.name;
     this.enabledBottomPanel = true;
   }
 
-  deleteCategory(id: number) {
+  delete(id: number) {
     const fetchCategories = () => (this.getCategories());
     this.categoryService.deleteCategory(id, fetchCategories);
   }
 
   addButtonClicked() {
     this.enabledBottomPanel = true;
-    this.categoryName = '';
-    this.currentCategory = new Category(null!, '');
+    this.dictName = '';
+    this.currentCategory = new Dictionary(null!, '');
   }
 
-  saveEditCategory() {
+  saveEdit() {
     const disabledPanel = () => (this.enabledBottomPanel = false);
     const fetchCategories = () => (this.getCategories());
-    this.categoryService.saveEditCategory(this.currentCategory.id, this.categoryName, disabledPanel, fetchCategories);
+    this.categoryService.saveEditCategory(this.currentCategory.id, this.dictName, disabledPanel, fetchCategories);
   }
 
 }

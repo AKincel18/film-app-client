@@ -1,4 +1,4 @@
-export class Category {
+export class Dictionary {
     id: number = 0;
     name: string = '';
 

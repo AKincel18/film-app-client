@@ -3,47 +3,40 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { retry } from 'rxjs';
 import { MessageResponse } from 'src/app/MessageResponse';
-import { ApiPaths } from 'src/enums/ApiPaths';
-import { environment } from 'src/environments/environment';
-import { Category } from '../Category';
+import { Dictionary } from '../Dictionary';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CategoryService {
-
-  url;
+export class ParentService {
 
   constructor(
     private http: HttpClient,
-    private snackBar: MatSnackBar
-  ) { 
-    this.url = environment.baseUrl + ApiPaths.CATEGORIES;
+    private snackBar: MatSnackBar) { }
+
+  get(url: string) {
+    return this.http.get<Dictionary[]>(url).pipe(retry(1));
   }
 
-  getCategory() {
-    return this.http.get<Category[]>(this.url).pipe(retry(1));
-  }
-
-  saveEditCategory(id: number, name: string, disabledPanel: () => void, fetchCategories: () => void) {
-    var category = new Category(id, name);
+  save(url: string, id: number, name: string, disabledPanel: () => void, fetchDictionaries: () => void) {
+    var dictionary = new Dictionary(id, name);
     var method = undefined;
     if (id == null!) {
-      method = this.http.post(this.url, category);
+      method = this.http.post(url, dictionary);
     }
     else {
-      method = this.http.put(this.url, category);
+      method = this.http.put(url, dictionary);
     }
     
     method.subscribe(
       {
         next: (res) => {
-          var category = res as Category;
-          this.snackBar.open('Added '+ category.name +' category!', '', {
+          var dictionary = res as Dictionary;
+          this.snackBar.open('Added '+ dictionary.name, '', {
             duration: 2000
           })       
           disabledPanel();
-          fetchCategories();
+          fetchDictionaries();
         },
         error: (e) => {
           if (e instanceof HttpErrorResponse) {
@@ -57,14 +50,14 @@ export class CategoryService {
     )
   }
 
-  deleteCategory(id: number, fetchCategories: () => void) {
-    this.http.delete(this.url + '/'+ id).subscribe(
+  delete(url: string, id: number, fetchDictionaries: () => void) {
+    this.http.delete(url + '/'+ id).subscribe(
       {
         next: (res) => {
-          this.snackBar.open('Delete category!', '', {
+          this.snackBar.open('Delete!', '', {
             duration: 2000
           })      
-          fetchCategories();
+          fetchDictionaries();
         }
       }
     )
