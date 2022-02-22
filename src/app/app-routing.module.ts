@@ -1,15 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/component/login.component';
-import { CategoryComponent } from './moderator-views/category/component/category.component';
-import { PersonRoleComponent } from './moderator-views/personrole/component/personrole.component';
-import { UserRoleComponent } from './moderator-views/userrole/component/userrole.component';
+import { DictionaryComponent } from './moderator-views/dictionary/component/dictionary.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'category', component: CategoryComponent},
-  { path: 'user-role', component: UserRoleComponent},
-  { path: 'person-role', component: PersonRoleComponent}
+  { path: 'category', component: DictionaryComponent},
+  { path: 'user-role', component: DictionaryComponent},
+  { path: 'person-role', component: DictionaryComponent}
 ];
 
 @NgModule({

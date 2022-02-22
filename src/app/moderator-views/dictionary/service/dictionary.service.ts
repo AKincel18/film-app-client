@@ -8,13 +8,13 @@ import { Dictionary } from '../Dictionary';
 @Injectable({
   providedIn: 'root'
 })
-export class ParentService {
+export class DictionaryService {
 
   constructor(
     private http: HttpClient,
     private snackBar: MatSnackBar) { }
 
-  get(url: string) {
+  getDictionaries(url: string) {
     return this.http.get<Dictionary[]>(url).pipe(retry(1));
   }
 

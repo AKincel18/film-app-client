@@ -16,17 +16,13 @@ import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/materi
 import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { UserRoleComponent } from './moderator-views/userrole/component/userrole.component';
-import { CategoryComponent } from './moderator-views/category/component/category.component';
-import { PersonRoleComponent } from './moderator-views/personrole/component/personrole.component';
+import { DictionaryComponent } from './moderator-views/dictionary/component/dictionary.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    CategoryComponent,
-    UserRoleComponent,
-    PersonRoleComponent
+    DictionaryComponent
   ],
   imports: [
     BrowserModule,
