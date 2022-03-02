@@ -11,12 +11,18 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatInputModule} from '@angular/material/input';
+import {MatToolbarModule} from '@angular/material/toolbar'
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
+import {MatTableModule} from '@angular/material/table';
+import {MatIconModule} from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { DictionaryComponent } from './moderator-views/dictionary/component/dictionary.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    DictionaryComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +34,11 @@ import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/materi
     MatSnackBarModule,
     MatTabsModule,
     MatInputModule,
-    ReactiveFormsModule  
+    ReactiveFormsModule,
+    MatToolbarModule,
+    MatTableModule,
+    MatIconModule,
+    MatButtonModule
   ],
   providers: [
     {provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher}
