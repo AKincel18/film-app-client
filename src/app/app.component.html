@@ -1,17 +1,19 @@
 <router-outlet>
-    <mat-toolbar color="primary">
-        <div class="gap">
-            
+  <mat-toolbar color="primary">
+    <div class="gap">
+
       <a class="toolbarPart" mat-button [routerLink]="'/category'">Category</a>
     </div>
     <div class="gap">
       <a class="toolbarPart" mat-button [routerLink]="'/user-role'">User role</a>
-      </div>
-      <div class="gap">
-      
+    </div>
+    <div class="gap">
       <a class="toolbarPart" mat-button [routerLink]="'/person-role'">Person role</a>
     </div>
-        <span class="filler"></span>
-        <span>About</span>
-    </mat-toolbar>
+    <div class="gap">
+      <a class="toolbarPart" mat-button [routerLink]="'/person'">Person</a>
+    </div>
+    <span class="filler"></span>
+    <span>About</span>
+  </mat-toolbar>
 </router-outlet>

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { ApiPaths } from 'src/enums/ApiPaths';
-import { environment } from 'src/environments/environment';
 import { Dictionary } from '../Dictionary';
 import { DictionaryService } from '../service/dictionary.service';
 
@@ -12,7 +11,7 @@ import { DictionaryService } from '../service/dictionary.service';
   styleUrls: ['/dictionary.component.css']
 })
 export class DictionaryComponent implements OnInit {
-  url : any; 
+  selectedDictionaryPath : any; 
   title : any;
   dictionaries : any;
 
@@ -20,7 +19,7 @@ export class DictionaryComponent implements OnInit {
   displayedColumns: any;
   dictName = '';
   enabledBottomPanel = false;
-  currentDictionary: Dictionary = new Dictionary(0, '');
+  currentDictionary: Dictionary = new Dictionary();
 
   constructor(private router: Router, 
     private service: DictionaryService) { }
@@ -33,19 +32,19 @@ export class DictionaryComponent implements OnInit {
 
   initVariables() {
     if (this.router.url === '/category') {
-      this.url = environment.baseUrl + ApiPaths.CATEGORIES;
+      this.selectedDictionaryPath = ApiPaths.CATEGORIES;
       this.title = 'Category';
     } else if (this.router.url === '/user-role') {
-      this.url = environment.baseUrl + ApiPaths.USER_ROLES;
+      this.selectedDictionaryPath = ApiPaths.USER_ROLES;
       this.title = 'User role';
     } else if (this.router.url === '/person-role') {
       this.title = 'Person role';
-      this.url = environment.baseUrl + ApiPaths.PERSON_ROLES;
+      this.selectedDictionaryPath = ApiPaths.PERSON_ROLES;
     }
   }
 
   getDictionaries() {
-    this.dictionaries = this.service.getDictionaries(this.url).subscribe({
+    this.dictionaries = this.service.getDictionaries(this.selectedDictionaryPath).subscribe({
       next: (res) => {
         this.dataSource.data = res;
       },
@@ -63,19 +62,19 @@ export class DictionaryComponent implements OnInit {
 
   delete(id: number) {
     const fetchDictionaries = () => (this.getDictionaries());
-    this.service.delete(this.url, id, fetchDictionaries);
+    this.service.delete(this.selectedDictionaryPath, id, fetchDictionaries);
   }
 
   addButtonClicked() {
     this.enabledBottomPanel = true;
     this.dictName = '';
-    this.currentDictionary = new Dictionary(null!, '');
+    this.currentDictionary = new Dictionary();
   }
 
   saveEdit() {
     const disabledPanel = () => (this.enabledBottomPanel = false);
     const fetchCategories = () => (this.getDictionaries());
-    this.service.save(this.url, this.currentDictionary.id, this.dictName, disabledPanel, fetchCategories);
+    this.service.save(this.selectedDictionaryPath, this.currentDictionary.id, this.dictName, disabledPanel, fetchCategories);
   }
 
 

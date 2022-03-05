@@ -12,17 +12,21 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatInputModule} from '@angular/material/input';
 import {MatToolbarModule} from '@angular/material/toolbar'
-import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
+import { ErrorStateMatcher, MatNativeDateModule, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { DictionaryComponent } from './moderator-views/dictionary/component/dictionary.component';
+import { PersonComponent } from './moderator-views/person/component/person.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    DictionaryComponent
+    DictionaryComponent,
+    PersonComponent
   ],
   imports: [
     BrowserModule,
@@ -38,10 +42,14 @@ import { DictionaryComponent } from './moderator-views/dictionary/component/dict
     MatToolbarModule,
     MatTableModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSelectModule
   ],
   providers: [
-    {provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher}
+    {provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher}, 
+    MatDatepickerModule
   ],
   bootstrap: [AppComponent]
 })
