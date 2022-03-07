@@ -5,32 +5,33 @@ import { retry } from 'rxjs';
 import { MessageResponse } from 'src/app/MessageResponse';
 import { ApiPaths } from 'src/enums/ApiPaths';
 import { environment } from 'src/environments/environment';
-import { CreatePersonRequest } from '../payload/CreatePersonRequest';
-import { Person } from '../Person';
-import { UpdatePersonRequest } from '../payload/UpdatePersonRequest';
+import { Film } from '../Film';
+import { CreateFilmRequest } from '../payload/CreateFilmRequest';
+import { UpdateFilmRequest } from '../payload/UpdateFilmRequest';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PersonService {
+export class FilmService {
 
-  url = environment.baseUrl + ApiPaths.PERSONS;
+  url = environment.baseUrl + ApiPaths.FILMS;
+
   constructor(private http: HttpClient,
               private snackBar: MatSnackBar) { }
 
-  getPersons() {
-    return this.http.get<Person[]>(this.url).pipe(retry(1));
+  getFilms() {
+    return this.http.get<Film[]>(this.url).pipe(retry(1));
   }
 
-  addEditPerson(id: number | null, form: any, disabledRightPanel: () => void, fetchPersons: () => void) {
+  addEditFilm(id: number | null, form: any, disabledRightPanel: () => void, fetchFilms: () => void) {
     var method = undefined;   
     
     if (id == null) {
-      let request = form as CreatePersonRequest;
+      let request = form as CreateFilmRequest;
       method = this.http.post(this.url, request);
     }
     else {
-      let request = form as UpdatePersonRequest;
+      let request = form as UpdateFilmRequest;
       request.id = id;
       method = this.http.patch(this.url, request);
     }
@@ -38,12 +39,12 @@ export class PersonService {
     method.subscribe(
       {
         next: (res) => {
-          var p = res as Person;
-          this.snackBar.open('Added '+ p.firstName + ' ' + p.lastName, '', {
+          var f = res as Film;
+          this.snackBar.open('Added '+ f.name, '', {
             duration: 2000
           })       
           disabledRightPanel();
-          fetchPersons();
+          fetchFilms();
         },
         error: (e) => {
           if (e instanceof HttpErrorResponse) {
@@ -57,7 +58,7 @@ export class PersonService {
     )
   }
 
-  deletePerson(id: number, disabledRightPanel: () => void, fetchPersons: () => void) {
+  deleteFilm(id: number, disabledRightPanel: () => void, fetchFilms: () => void) {
     var fullUrl = this.url + '/' + id;
     this.http.delete(fullUrl).subscribe(
       {
@@ -66,14 +67,9 @@ export class PersonService {
             duration: 2000
           })
           disabledRightPanel();      
-          fetchPersons();
+          fetchFilms();
         }
       }
     )
-  }
-
-  getDirectors() {
-    var fullUrl = this.url + '/directors';
-    return this.http.get<Person[]>(fullUrl).pipe(retry(1));
   }
 }

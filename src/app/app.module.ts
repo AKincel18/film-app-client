@@ -20,13 +20,15 @@ import { DictionaryComponent } from './moderator-views/dictionary/component/dict
 import { PersonComponent } from './moderator-views/person/component/person.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatSelectModule} from '@angular/material/select';
+import { FilmComponent } from './moderator-views/film/component/film/film.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     DictionaryComponent,
-    PersonComponent
+    PersonComponent,
+    FilmComponent
   ],
   imports: [
     BrowserModule,
