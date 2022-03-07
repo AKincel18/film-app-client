@@ -1,4 +1,4 @@
-import { ApplicationModule, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { DictionaryService } from 'src/app/moderator-views/dictionary/service/dictionary.service';
@@ -31,7 +31,7 @@ export class FilmComponent implements OnInit {
               private personService: PersonService) { }
 
   ngOnInit(): void {
-    this.displayedColumns = ['name', 'category', 'director', 'releaseDate', 'runningTime', 'action'];
+    this.displayedColumns = ['name', 'category', 'director', 'releaseDate', 'runningTime', 'budget' ,'action'];
     this.categories = this.dictionaryService.getDictionaries(ApiPaths.CATEGORIES);
     this.directors = this.personService.getDirectors();
     this.generateFilmForm();
@@ -55,8 +55,9 @@ export class FilmComponent implements OnInit {
         name: new FormControl('', [Validators.required]),
         categoryId: new FormControl('', [Validators.required]),
         directorId: new FormControl('', [Validators.required]),
-        releaseDate: new FormControl('', [Validators.required]),
-        runningTime: new FormControl('', [Validators.required])
+        releaseDate: new FormControl(''),
+        runningTime: new FormControl(''),
+        budget: new FormControl('')
       }
     );
   }
@@ -74,7 +75,8 @@ export class FilmComponent implements OnInit {
       categoryId: film.category.id,
       directorId: film.director.id,
       releaseDate: film.releaseDate,
-      runningTime: film.runningTime
+      runningTime: film.runningTime,
+      budget: film.budget
     });
   }
 

@@ -7,5 +7,6 @@ export interface Film {
     category: Dictionary,
     director: Person,
     releaseDate: Date,
-    runningTime: number
+    runningTime: number,
+    budget: number
 }

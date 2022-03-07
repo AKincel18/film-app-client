@@ -20,7 +20,6 @@
                     <th mat-header-cell *matHeaderCellDef> Director </th>
                     <td mat-cell *matCellDef="let element"> 
                         <a routerLink="/persons/{{element.director.id}}">{{element.director.lastName}} {{element.director.firstName}} </a>
-                        
                     </td>
                 </ng-container>
 
@@ -32,6 +31,11 @@
                 <ng-container matColumnDef="runningTime">
                     <th mat-header-cell *matHeaderCellDef> Running time </th>
                     <td mat-cell *matCellDef="let element"> {{element.runningTime}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="budget">
+                    <th mat-header-cell *matHeaderCellDef> Budget </th>
+                    <td mat-cell *matCellDef="let element"> {{element.budget}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="action">
@@ -98,23 +102,24 @@
             <div style="margin-top: 15px">
                 <mat-form-field class="example" style="margin-right: 5%;">
                     <mat-label>Release date</mat-label>
-                    <input matInput [matDatepicker]="picker" name="submit" type="btn-primary" [errorStateMatcher]="matcher"
+                    <input matInput [matDatepicker]="picker" name="submit" type="btn-primary"
                         formControlName="releaseDate">
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
-                    <mat-error *ngIf="filmForm.get('releaseDate')?.hasError('required')">
-                        Release date is <strong>required</strong>
-                      </mat-error>
                 </mat-form-field>
             </div>
             
             <div style="margin-top: 15px">
                 <mat-form-field class="example">
                     <mat-label>Running time</mat-label>
-                    <input matInput type="number" min="0" name="submit" type="btn-primary" formControlName="runningTime" [errorStateMatcher]="matcher">
-                    <mat-error *ngIf="filmForm.get('runningTime')?.hasError('required')">
-                        Running time is <strong>required</strong>
-                      </mat-error>
+                    <input matInput type="number" min="0" name="submit" type="btn-primary" formControlName="runningTime">
+                </mat-form-field>
+            </div>
+
+            <div style="margin-top: 15px">
+                <mat-form-field class="example">
+                    <mat-label>Budget</mat-label>
+                    <input matInput type="number" min="0" name="submit" type="btn-primary" formControlName="budget">
                 </mat-form-field>
             </div>
 
