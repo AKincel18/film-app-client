@@ -3,5 +3,6 @@ export enum ApiPaths {
     REGISTER = 'auth/signup',
     CATEGORIES = 'categories',
     PERSON_ROLES = 'person-roles',
-    USER_ROLES = 'user-roles'
+    USER_ROLES = 'user-roles',
+    PERSONS = 'persons'
 }

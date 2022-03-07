@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { retry } from 'rxjs';
 import { MessageResponse } from 'src/app/MessageResponse';
+import { ApiPaths } from 'src/enums/ApiPaths';
+import { environment } from 'src/environments/environment';
 import { Dictionary } from '../Dictionary';
 
 @Injectable({
@@ -14,14 +16,16 @@ export class DictionaryService {
     private http: HttpClient,
     private snackBar: MatSnackBar) { }
 
-  getDictionaries(url: string) {
-    return this.http.get<Dictionary[]>(url).pipe(retry(1));
+  getDictionaries(path: ApiPaths) {
+    return this.http.get<Dictionary[]>(environment.baseUrl + path).pipe(retry(1));
   }
 
-  save(url: string, id: number, name: string, disabledPanel: () => void, fetchDictionaries: () => void) {
-    var dictionary = new Dictionary(id, name);
+  save(path: ApiPaths, id: number, name: string, disabledPanel: () => void, fetchDictionaries: () => void) {
+    var url = environment.baseUrl + path;
+    var dictionary = new Dictionary();
+    dictionary.setFields(id, name);
     var method = undefined;
-    if (id == null!) {
+    if (id == -1) {
       method = this.http.post(url, dictionary);
     }
     else {
@@ -50,8 +54,9 @@ export class DictionaryService {
     )
   }
 
-  delete(url: string, id: number, fetchDictionaries: () => void) {
-    this.http.delete(url + '/'+ id).subscribe(
+  delete(path:ApiPaths, id: number, fetchDictionaries: () => void) {
+    var url = environment.baseUrl + path + '/' + id;
+    this.http.delete(url).subscribe(
       {
         next: (res) => {
           this.snackBar.open('Delete!', '', {
