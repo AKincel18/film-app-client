@@ -1,9 +1,14 @@
 .margins {
     margin-top: 15px;
 }
-.mat-row {
-    height: auto;
-  }
-  .mat-cell {
-    padding: 0px 50px 10px 0;
-  }
+
+.mat-column-name {
+  
+  width: 350px;
+  max-width: 350px;
+}
+
+.mat-column-Action {
+  width: 50px;
+  max-width: 50px;
+}

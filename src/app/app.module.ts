@@ -21,6 +21,7 @@ import { PersonComponent } from './moderator-views/person/component/person.compo
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatSelectModule} from '@angular/material/select';
 import { FilmComponent } from './moderator-views/film/component/film/film.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { FilmComponent } from './moderator-views/film/component/film/film.compon
     MatButtonModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatSelectModule
+    MatSelectModule,
+    MatPaginatorModule
   ],
   providers: [
     {provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher}, 
