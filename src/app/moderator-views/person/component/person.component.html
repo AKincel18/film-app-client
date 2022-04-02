@@ -4,44 +4,52 @@
         <div class="person-style" style="margin-left: 15%;">
             <h2>Persons</h2>
             <button mat-button class="primary" (click)="addButtonClicked()">Add person</button>
-            <table mat-table [dataSource]="dataSource">
+            <div class="mat-elevation-z2">
+                <table mat-table [dataSource]="dataSource">
 
-                <ng-container matColumnDef="firstName">
-                    <th mat-header-cell *matHeaderCellDef> First name </th>
-                    <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
-                </ng-container>
+                    <ng-container matColumnDef="firstName">
+                        <th mat-header-cell *matHeaderCellDef> First name </th>
+                        <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+                    </ng-container>
 
-                <ng-container matColumnDef="lastName">
-                    <th mat-header-cell *matHeaderCellDef> Last name </th>
-                    <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
-                </ng-container>
+                    <ng-container matColumnDef="lastName">
+                        <th mat-header-cell *matHeaderCellDef> Last name </th>
+                        <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+                    </ng-container>
 
-                <ng-container matColumnDef="birthDate">
-                    <th mat-header-cell *matHeaderCellDef> Birth date </th>
-                    <td mat-cell *matCellDef="let element"> {{element.birthDate}} </td>
-                </ng-container>
+                    <ng-container matColumnDef="birthDate">
+                        <th mat-header-cell *matHeaderCellDef> Birth date </th>
+                        <td mat-cell *matCellDef="let element"> {{element.birthDate}} </td>
+                    </ng-container>
 
-                <ng-container matColumnDef="personRole">
-                    <th mat-header-cell *matHeaderCellDef> Role </th>
-                    <td mat-cell *matCellDef="let element"> {{element.personRole.name}} </td>
-                </ng-container>
+                    <ng-container matColumnDef="personRole">
+                        <th mat-header-cell *matHeaderCellDef> Role </th>
+                        <td mat-cell *matCellDef="let element"> {{element.personRole.name}} </td>
+                    </ng-container>
 
-                <ng-container matColumnDef="action">
-                    <th mat-header-cell *matHeaderCellDef style="text-align: center;">Actions</th>
-                    <td mat-cell *matCellDef="let element">
-                        <button mat-icon-button class="iconbutton" color="primary" (click)="editButtonClicked(element)">
-                            <mat-icon aria-label="Edit">edit</mat-icon>
-                        </button>
-                        <button mat-icon-button class="iconbutton" color="primary" (click)="deleteButtonClicked(element.id)">
-                            <mat-icon aria-label="Delete">delete</mat-icon>
-                        </button>
-                    </td>
-                </ng-container>
+                    <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef style="text-align: center;">Actions</th>
+                        <td mat-cell *matCellDef="let element">
+                            <button mat-icon-button class="iconbutton" color="primary"
+                                (click)="editButtonClicked(element)">
+                                <mat-icon aria-label="Edit">edit</mat-icon>
+                            </button>
+                            <button mat-icon-button class="iconbutton" color="primary"
+                                (click)="deleteButtonClicked(element.id)">
+                                <mat-icon aria-label="Delete">delete</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
 
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
 
+                <mat-paginator [pageIndex]="paginatorConfig.pageIndex" [pageSize]="paginatorConfig.pageSize"
+                    [pageSizeOptions]="paginatorConfig.pageSizeOptions" [length]="paginatorConfig.maxItems"
+                    (page)=pageChangeEvent($event) showFirstLastButtons>
+                </mat-paginator>
+            </div>
         </div>
 
         <div class="person-style" style="margin-left: 5%;" *ngIf="enabledRightPanel" [formGroup]="personForm">
@@ -53,17 +61,18 @@
                     <input matInput type="btn-primary" formControlName="firstName" [errorStateMatcher]="matcher">
                     <mat-error *ngIf="personForm.get('firstName')?.hasError('required')">
                         First name is <strong>required</strong>
-                      </mat-error>
+                    </mat-error>
                 </mat-form-field>
 
             </div>
             <div style="margin-top: 15px">
                 <mat-form-field class="example">
                     <mat-label>Last name</mat-label>
-                    <input matInput name="submit" type="btn-primary" formControlName="lastName" [errorStateMatcher]="matcher">
+                    <input matInput name="submit" type="btn-primary" formControlName="lastName"
+                        [errorStateMatcher]="matcher">
                     <mat-error *ngIf="personForm.get('lastName')?.hasError('required')">
                         Last name is <strong>required</strong>
-                      </mat-error>
+                    </mat-error>
                 </mat-form-field>
             </div>
 
@@ -71,13 +80,13 @@
 
                 <mat-form-field class="example" style="margin-right: 5%;">
                     <mat-label>Birth date</mat-label>
-                    <input matInput [matDatepicker]="picker" name="submit" type="btn-primary" [errorStateMatcher]="matcher"
-                        formControlName="birthDate">
+                    <input matInput [matDatepicker]="picker" name="submit" type="btn-primary"
+                        [errorStateMatcher]="matcher" formControlName="birthDate">
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                     <mat-error *ngIf="personForm.get('birthDate')?.hasError('required')">
                         Birth date is <strong>required</strong>
-                      </mat-error>
+                    </mat-error>
                 </mat-form-field>
             </div>
 
@@ -93,13 +102,14 @@
                     </mat-select>
                     <mat-error *ngIf="personForm.get('roleId')?.hasError('required')">
                         Person role is <strong>required</strong>
-                      </mat-error>
+                    </mat-error>
                 </mat-form-field>
 
             </div>
 
             <div style="margin-top: 15px">
-                <button mat-button class="btn-primary" (click)="saveButtonClicked()" [disabled]="personForm.invalid">Save</button>
+                <button mat-button class="btn-primary" (click)="saveButtonClicked()"
+                    [disabled]="personForm.invalid">Save</button>
             </div>
         </div>
     </div>

@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { retry } from 'rxjs';
@@ -17,7 +17,14 @@ export class DictionaryService {
     private snackBar: MatSnackBar) { }
 
   getDictionaries(path: ApiPaths) {
-    return this.http.get<Dictionary[]>(environment.baseUrl + path).pipe(retry(1));
+      return this.http.get<Dictionary[]>(environment.baseUrl + path + "/all").pipe(retry(1));
+    }
+
+  getPaginatedDirectories(path: ApiPaths, pageSize: number, pageIndex: number) {
+    let params = new HttpParams()
+      .set('pageSize', pageSize)
+      .set('pageIndex', pageIndex);
+    return this.http.get<Dictionary[]>(environment.baseUrl + path, { params: params, observe: 'response' }).pipe(retry(1));
   }
 
   save(path: ApiPaths, id: number, name: string, disabledPanel: () => void, fetchDictionaries: () => void) {

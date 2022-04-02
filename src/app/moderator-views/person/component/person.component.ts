@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MyErrorStateMatcher } from 'src/classes/MyErrorStateMatcher';
 import { ApiPaths } from 'src/enums/ApiPaths';
@@ -22,6 +23,13 @@ export class PersonComponent implements OnInit {
   addEditPersonTitle: any;
   personForm!: FormGroup;
   matcher = new MyErrorStateMatcher();
+  maxPageSize = 10;
+  paginatorConfig = {
+    pageSizeOptions: [this.maxPageSize, 25, 50],
+    pageSize: this.maxPageSize,
+    maxItems: 0,
+    pageIndex: 0
+  }
   
   constructor(private personService: PersonService, 
               private dictService: DictionaryService,
@@ -32,7 +40,7 @@ export class PersonComponent implements OnInit {
     this.displayedColumns = ['firstName', 'lastName', 'birthDate', 'personRole', 'action'];
     this.generatePersonForm();
     this.personRoles = this.dictService.getDictionaries(ApiPaths.PERSON_ROLES);
-    this.findAllPersons();
+    this.getAllPersons();
   }
 
   generatePersonForm() {
@@ -46,10 +54,11 @@ export class PersonComponent implements OnInit {
     );
   }
 
-  findAllPersons() {
-    this.personService.getPersons().subscribe({
+  getAllPersons() {
+    this.personService.getPaginatedPersons(this.paginatorConfig.pageSize, this.paginatorConfig.pageIndex).subscribe({
       next: (res) => {
-        this.dataSource.data = res;
+        this.dataSource.data = res.body!;
+        this.paginatorConfig.maxItems = Number(res.headers.get('X-MAX-RESULTS'));
       },
       error: (e) => {
         console.log(e);
@@ -82,14 +91,22 @@ export class PersonComponent implements OnInit {
 
   saveButtonClicked() {
     const disabledRightPanel = () => (this.enabledRightPanel = false);
-    const fetchPersons = () => (this.findAllPersons());
+    const fetchPersons = () => (this.getAllPersons());
     this.personService.addEditPerson(this.currentPersonId, this.personForm.value, disabledRightPanel, fetchPersons);
   }
 
   deleteButtonClicked(id: number) {
     const disabledRightPanel = () => (this.enabledRightPanel = false);
-    const fetchPersons = () => (this.findAllPersons());
+    const fetchPersons = () => (this.getAllPersons());
     this.personService.deletePerson(id, disabledRightPanel, fetchPersons);
+  }
+
+  public pageChangeEvent(event?: PageEvent) {
+    if (event != null) {
+      this.paginatorConfig.pageIndex = event.pageIndex;
+      this.paginatorConfig.pageSize = event.pageSize;
+    }
+    this.getAllPersons();
   }
 
 }

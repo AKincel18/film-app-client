@@ -2,6 +2,8 @@
     <div style="padding-top: 2%">
         <h1 style="text-align: center;">{{title}}</h1>
         <div class="margins">
+            <div class="mat-elevation-z2">
+
             <table mat-table [dataSource]="dataSource">
 
                 <ng-container matColumnDef="name">
@@ -12,12 +14,10 @@
                 <ng-container matColumnDef="action">
                     <th mat-header-cell *matHeaderCellDef style="text-align: center;">Actions</th>
                     <td mat-cell *matCellDef="let element">
-                        <button mat-icon-button class="iconbutton" color="primary"
-                            (click)="edit(element)">
+                        <button mat-icon-button class="iconbutton" color="primary" (click)="edit(element)">
                             <mat-icon aria-label="Edit">edit</mat-icon>
                         </button>
-                        <button mat-icon-button class="iconbutton" color="primary"
-                            (click)="delete(element.id)">
+                        <button mat-icon-button class="iconbutton" color="primary" (click)="delete(element.id)">
                             <mat-icon aria-label="Delete">delete</mat-icon>
                         </button>
                     </td>
@@ -27,8 +27,18 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
 
+
+            <mat-paginator
+                [pageIndex]="paginatorConfig.pageIndex" [pageSize]="paginatorConfig.pageSize"
+                [pageSizeOptions]="paginatorConfig.pageSizeOptions" [length]="paginatorConfig.maxItems"
+                (page)=pageChangeEvent($event) showFirstLastButtons>
+            </mat-paginator>
+
+        </div>
+                
             <div class="margins">
-                <button style="margin-right: 5px;" mat-button class="primary" (click)="addButtonClicked()">Add new</button>
+                <button style="margin-right: 5px;" mat-button class="primary" (click)="addButtonClicked()">Add
+                    new</button>
             </div>
 
             <div class="margins" *ngIf="enabledBottomPanel">
@@ -36,7 +46,7 @@
                     <mat-label>{{title}} name</mat-label>
                     <input name="submit" type="btn-primary" [(ngModel)]="dictName" matInput>
                 </mat-form-field>
-                <button mat-button style="margin-left: 2px;"class="btn-primary" (click)="saveEdit()">Save</button>
+                <button mat-button style="margin-left: 2px;" class="btn-primary" (click)="saveEdit()">Save</button>
             </div>
 
 

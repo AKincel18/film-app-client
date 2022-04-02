@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { retry } from 'rxjs';
@@ -19,8 +19,11 @@ export class FilmService {
   constructor(private http: HttpClient,
               private snackBar: MatSnackBar) { }
 
-  getFilms() {
-    return this.http.get<Film[]>(this.url).pipe(retry(1));
+  getPaginatedFilms(pageSize: number, pageIndex: number) {
+    let params = new HttpParams()
+      .set('pageSize', pageSize)
+      .set('pageIndex', pageIndex);
+    return this.http.get<Film[]>(this.url, { params: params, observe: 'response' }).pipe(retry(1));
   }
 
   addEditFilm(id: number | null, form: any, disabledRightPanel: () => void, fetchFilms: () => void) {
