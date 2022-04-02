@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { retry } from 'rxjs';
@@ -18,8 +18,11 @@ export class PersonService {
   constructor(private http: HttpClient,
               private snackBar: MatSnackBar) { }
 
-  getPersons() {
-    return this.http.get<Person[]>(this.url).pipe(retry(1));
+  getPaginatedPersons(pageSize: number, pageIndex: number) {
+    let params = new HttpParams()
+      .set('pageSize', pageSize)
+      .set('pageIndex', pageIndex);
+    return this.http.get<Person[]>(this.url, { params: params, observe: 'response' }).pipe(retry(1));
   }
 
   addEditPerson(id: number | null, form: any, disabledRightPanel: () => void, fetchPersons: () => void) {
