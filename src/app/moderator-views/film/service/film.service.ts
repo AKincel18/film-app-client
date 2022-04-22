@@ -21,8 +21,9 @@ export class FilmService {
 
   getPaginatedFilms(pageSize: number, pageIndex: number) {
     let params = new HttpParams()
-      .set('pageSize', pageSize)
-      .set('pageIndex', pageIndex);
+      .set('size', pageSize)
+      .set('page', pageIndex)
+      .set('sort', 'name');
     return this.http.get<Film[]>(this.url, { params: params, observe: 'response' }).pipe(retry(1));
   }
 
