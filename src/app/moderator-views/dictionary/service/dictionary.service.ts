@@ -17,13 +17,15 @@ export class DictionaryService {
     private snackBar: MatSnackBar) { }
 
   getDictionaries(path: ApiPaths) {
-      return this.http.get<Dictionary[]>(environment.baseUrl + path + "/all").pipe(retry(1));
-    }
+    let params = new HttpParams().set('sort', 'name');
+    return this.http.get<Dictionary[]>(environment.baseUrl + path, { params: params }).pipe(retry(1));
+  }
 
   getPaginatedDirectories(path: ApiPaths, pageSize: number, pageIndex: number) {
     let params = new HttpParams()
-      .set('pageSize', pageSize)
-      .set('pageIndex', pageIndex);
+      .set('size', pageSize)
+      .set('page', pageIndex)
+      .set('sort', 'name');
     return this.http.get<Dictionary[]>(environment.baseUrl + path, { params: params, observe: 'response' }).pipe(retry(1));
   }
 

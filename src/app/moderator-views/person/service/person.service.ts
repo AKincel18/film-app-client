@@ -20,8 +20,9 @@ export class PersonService {
 
   getPaginatedPersons(pageSize: number, pageIndex: number) {
     let params = new HttpParams()
-      .set('pageSize', pageSize)
-      .set('pageIndex', pageIndex);
+      .set('size', pageSize)
+      .set('page', pageIndex)
+      .set('sort', 'firstName,lastName');
     return this.http.get<Person[]>(this.url, { params: params, observe: 'response' }).pipe(retry(1));
   }
 
